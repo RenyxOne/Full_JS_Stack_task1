@@ -5,9 +5,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
-  mode: "development",
+  mode: 'development',
   entry: {
-    app: './main.js'
+    app: './main.ts'
   },
   output: {
     filename: `[name].bundle.js`,
@@ -49,8 +49,20 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'postcss-loader',
-          'sass-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    "postcss-preset-env",
+                    "autoprefixer"
+                  ],
+                ],
+              },
+            },
+          },
+          'sass-loader'
         ],
       },
       {
@@ -62,20 +74,20 @@ module.exports = {
         type: "asset/resource"
       },
       {
-        test: /\.m?js$/,
+        test: /\/(ts|js)x$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: [
               [
-                "@babel/preset-env",
+                '@babel/preset-env',
                 {
-                  "useBuiltIns": "usage",
-                  "corejs": 3
+                  'useBuiltIns': 'usage',
+                  'corejs': 3
                 }
               ],
-              "@babel/preset-typescript"
+              '@babel/preset-typescript'
             ]
           }
         }
