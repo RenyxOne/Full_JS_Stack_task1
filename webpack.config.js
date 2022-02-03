@@ -27,7 +27,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./index.html",
       filename: "index.html",
-      title: 'hello'
+      title: 'Gallery'
     }),
     new CopyWebpackPlugin({
       patterns: [
