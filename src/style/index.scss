@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@400,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap');
 
 html, body {
   margin: 0;
@@ -6,6 +6,7 @@ html, body {
   height: 100%;
   font-family: 'Almarai', sans-serif;
 }
+
 .wrapper {
   overflow: hidden;
   box-sizing: border-box;
@@ -19,7 +20,8 @@ html, body {
 
 .container {
   width: 100%;
-  max-width: 1698px;
+  box-sizing: border-box;
+  max-width: 1630px;
 }
 
 .title {
@@ -31,11 +33,20 @@ html, body {
   color: #6e6e6e;
 }
 
+.text-with-bg {
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: 5px;
+  background: #eee;
+}
+
+
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 120px;
+  height: content-box;
+  padding-bottom: 20px;
 
   &__title {
     margin-bottom: 10px;
@@ -54,51 +65,57 @@ html, body {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin: -25px -25px;
+  margin: -1% -1%;
 
   &__card {
-    flex: 1 1 auto;
+    flex: 0 1 23%;
     min-width: 250px;
-    padding: 25px 25px;
+    padding: 1% 1%;
+    @media screen and (max-width: 1110px) {
+      flex: 0 1 31%;
+    }
+    @media screen and (max-width: 822px) {
+      flex: 0 1 48%;
+    }
+    @media screen and (max-width: 550px) {
+      flex: 0 1 auto;
+    }
   }
+
 }
 
 .card {
-  max-width: 387px;
-  width: 100%;
-
   &__img {
-    overflow: hidden;
     height: 100%;
     width: 100%;
-    border-radius: 10px;
     object-fit: cover;
 
   }
 
   &__main {
-    position: relative;
-  }
-
-  &__description-area {
     box-sizing: border-box;
+    margin-bottom: 3px;
+    position: relative;
     border-radius: 10px;
     overflow: hidden;
+  }
+
+  &__overlay {
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
-    width: 100%;
+    bottom: 3px;
+    right: 0;
     padding: 10%;
     background: linear-gradient(transparent, rgba(0, 0, 0, 0.70));
     opacity: 0;
-    transition: 0.3s;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
 
     &:hover {
       opacity: 1;
+      transition: 0.3s;
     }
   }
 
@@ -111,33 +128,14 @@ html, body {
 
   &__footer {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
 
-  &__btn-area {
-    display: flex;
-  }
-
-  &__btn {
-    box-sizing: border-box;
-    padding: 12%;
-    height: 50px;
-    width: 50px;
+  &__author {
+    display: block;
+    width: 100%;
+    background-color: #ccc;
     border-radius: 15px;
-    display: inline-block;
-    background-color: #ebebeb;
-
-    &#{&}--favorite {
-      content: url('../assets/favorite.svg');
-    }
-    &#{&}--like {
-      content: url('../assets/like.svg');
-    }
-    &:not(:last-child) {
-      margin-right: 10px;
-    }
+    text-align: center;
   }
 
   &__title {
@@ -150,67 +148,121 @@ html, body {
   }
 }
 
-.inline-user {
-  min-width: 0;
-  box-sizing: border-box;
-  height: 40px;
-  display: flex;
-  align-items: center;
+.my-modal {
+  display: none;
+  opacity: 0;
 
-
-  &__img {
-    height: 32px;
-    width: 32px;
-    flex-shrink: 0;
-    border-radius: 16px;
-    object-fit: cover;
-    overflow: hidden;
-    margin-right: 10px;
+  &__overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
   }
 
-  &__name {
-    flex: 1 1 auto;
-    margin-right: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  &__window {
+    max-width: 800px;
+    max-height: 600px;
   }
 
-  &__status {
-    background-color: #ccc;
-    color: white;
-    padding: 0 5px;
-    border-radius: 5px;
-    font-weight: 700;
+  &#{&}--show {
+    z-index: 1000;
+    display: block;
+    opacity: 1;
+    transition: 0.3s;
   }
 }
 
-.stats {
+.window {
+  width: 100%;
+  height: 100%;
+  background: #cccccc;
+  border-radius: 10px;
   display: flex;
-  &__likes {
-    padding-left: 22px;
-    position: relative;
-    &::before {
-      position: absolute;
-      top: 0;
-      left: 0;
-      content: url("../assets/like.svg");
-      height: 16px;
-      width: 20px;
-    }
+  flex-direction: column;
+
+  &__header {
+    flex: 0 0 5%;
+    min-height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  &__views {
-    margin-left: 10px;
-    padding-left: 22px;
-    position: relative;
-    &::before {
+  &__main {
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  &__footer {
+    flex: 0 0 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.slider {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  justify-items: center;
+  justify-content: center;
+
+  &__img {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  @mixin arrow($rotate) {
+    min-width: 60px;
+    width: 15%;
+    position: absolute;
+    top:0;
+    bottom: 0;
+
+    &:before {
+      content: '';
+      background: url('../assets/slider/arrow.png') 0 0 no-repeat;
+      background-size: cover;
+      display: inline-block;
+      width: 52px;
+      height: 52px;
+      margin: -26px 0 0 -26px;
       position: absolute;
-      top: 0;
-      left: 0;
-      content: url("../assets/views.svg");
-      height: 16px;
-      width: 20px;
+      top: 50%;
+      left: 50%;
+      transform: rotate($rotate);
+      opacity: .5;
     }
+
+    &:hover {
+      background: rgba(0,0,0,.3);
+      transition: 0.3s;
+      &:before {
+        opacity: 1;
+        transition: 0.3s;
+      }
+    }
+
+
+
+  }
+  &__arrow-left {
+    @include arrow(180deg);
+    left: 0;
+  }
+  &__arrow-right {
+    @include arrow(0deg);
+    right: 0;
   }
 }

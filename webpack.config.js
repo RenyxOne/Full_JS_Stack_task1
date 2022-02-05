@@ -7,7 +7,7 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
   entry: {
-    app: './main.ts'
+    app: './scripts/main.ts',
   },
   output: {
     filename: `[name].bundle.js`,
@@ -25,7 +25,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./index.html",
+      template: "./html/index.html",
       filename: "index.html",
       title: 'Gallery'
     }),
@@ -74,7 +74,7 @@ module.exports = {
         type: "asset/resource"
       },
       {
-        test: /\/(ts|js)x$/,
+        test: /\.(ts|tsx|js)?$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
@@ -93,5 +93,8 @@ module.exports = {
         }
       }
     ]
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
   }
 }
