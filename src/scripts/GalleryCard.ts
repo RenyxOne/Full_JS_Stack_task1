@@ -6,35 +6,35 @@ export class GalleryCard {
     private previewImg: string;
     private cardTitle: string;
 
-    private domElement: HTMLElement;
+    private $card: HTMLElement;
     constructor(dom:Document, album: Album, onClick: Function) {
         this.dom = dom;
         this.album = album;
         this.previewImg = '';
         this.cardTitle = album.title!;
-        this.domElement = this.dom.createElement('div');
+        this.$card = this.dom.createElement('div');
         this.initCard();
 
-        this.domElement.querySelector('.card__main')!.addEventListener('click', () => onClick());
+        this.$card.querySelector('.card__main')!.addEventListener('click', () => onClick());
     }
 
     setPreview(url: string){
         this.previewImg = url;
-        this.domElement.querySelector('.card__img')!
+        this.$card.querySelector('.card__img')!
             .setAttribute('src', this.previewImg);
     }
     setTitle(cardTitle: string){
-        const cardTitleNode = this.domElement.querySelector('.card__title') as HTMLSpanElement;
+        const cardTitleNode = this.$card.querySelector('.card__title') as HTMLSpanElement;
         cardTitleNode.innerText = cardTitle;
     }
     setAuthor(author: string){
-        const cardAuthorNode = this.domElement.querySelector('.card__author') as HTMLSpanElement;
+        const cardAuthorNode = this.$card.querySelector('.card__author') as HTMLSpanElement;
         cardAuthorNode.innerText = author;
     }
 
     private initCard(){
-        this.domElement.className = 'card';
-        this.domElement.innerHTML = `
+        this.$card.className = 'card';
+        this.$card.innerHTML = `
             <div class="card__main">
                 <div class="card__main">
                     <img class="card__img" src="https://via.placeholder.com/600/8e973b" alt="">
@@ -54,6 +54,6 @@ export class GalleryCard {
     }
 
     public getNode(): HTMLElement{
-        return this.domElement;
+        return this.$card;
     }
 }

@@ -15,7 +15,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .container {
@@ -62,10 +62,13 @@ html, body {
 }
 
 .gallery {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin: -1% -1%;
+
+  &__card-area {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin: -1% -1%;
+  }
 
   &__card {
     flex: 0 1 23%;
@@ -78,10 +81,32 @@ html, body {
       flex: 0 1 48%;
     }
     @media screen and (max-width: 550px) {
-      flex: 0 1 auto;
+      flex: 0 1 100%;
     }
   }
 
+  &__btn {
+    margin-top: 10px;
+    border-radius: 10px;
+    width: 100%;
+    height: 50px;
+    position: relative;
+    background: #ccc;
+    &:before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      text-align: center;
+      line-height: 50px;
+      content: 'Load More';
+    }
+
+    &#{&}--hide {
+      display: none;
+    }
+  }
 }
 
 .card {
