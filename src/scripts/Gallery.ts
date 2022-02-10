@@ -1,34 +1,49 @@
 import {GalleryCard} from "./GalleryCard";
 
 export class Gallery {
-    private dom;
-    private $gallery;
+    private dom: Document;
+    private galleryNode: HTMLElement;
     private elements: Array<GalleryCard>;
+    public currentAlbum: number;
+
     constructor(dom: Document, element: any) {
         this.dom = dom;
-        this.$gallery = element;
-        this.$gallery.className = 'gallery';
-        this.$gallery.innerHTML = `
+        this.galleryNode = element;
+        this.galleryNode.className = 'gallery';
+        this.galleryNode.innerHTML = `
             <div class="gallery__card-area"></div>
             <div class="gallery__btn"></div>
         `;
         this.elements = [];
+        this.currentAlbum = 0;
     }
 
     setBtnFunc (func: Function){
-        const $btn = this.$gallery.querySelector('.gallery__btn');
-        $btn!.addEventListener('click', async () => {
-            $btn.classList.add('gallery__btn--hide');
+        const btnNode = this.galleryNode.querySelector('.gallery__btn');
+        if (!btnNode) return;
+
+        btnNode.addEventListener('click', async () => {
+            btnNode.classList.add('gallery__btn--hide');
             await func()
-            $btn.classList.remove('gallery__btn--hide');
+            btnNode.classList.remove('gallery__btn--hide');
         });
     }
 
     addElement(card: GalleryCard) {
-        this.elements.push(card);
-        const cardNode = card.getNode();
-        cardNode.classList.add('gallery__card');
-        this.$gallery.querySelector('.gallery__card-area').appendChild(card.getNode());
-    }
+        try {
+            this.elements.push(card);
+            const cardNode = card.getNode();
+            cardNode.classList.add('gallery__card');
+            const cardArea = this.galleryNode.querySelector('.gallery__card-area');
+            if (!cardArea) {
+                throw 'incorrect Gallery Structure';
+            }
+            cardArea.appendChild(cardNode);
+        }
+        catch (e) {
+            console.error(e);
+            throw e;
+        }
 
+    }
 }

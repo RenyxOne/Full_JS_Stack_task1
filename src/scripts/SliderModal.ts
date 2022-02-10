@@ -42,28 +42,51 @@ export class SliderModal {
     }
 
     private setCurrentPhoto(){
-        const photo = this.album!.getPhoto(this.currentPhotoIndex);
+        if (!this.album) return;
+
+        const photo = this.album.getPhoto(this.currentPhotoIndex);
         this.setPhoto(photo);
     }
+
     private initEvents() {
-        this.objNode.querySelector('.slider__arrow-left')!
-            .addEventListener('click', () =>this.prevPhoto());
-
-        this.objNode.querySelector('.slider__arrow-right')!
-            .addEventListener('click', () =>this.nextPhoto());
-
-        const overlay = this.objNode.querySelector('.my-modal__overlay');
-            overlay!.addEventListener('click', (e) => e.target === overlay && this.hide());
+        try {
+            const leftArrow = this.objNode.querySelector('.slider__arrow-left');
+            const rightArrow = this.objNode.querySelector('.slider__arrow-right');
+            const overlay = this.objNode.querySelector('.my-modal__overlay');
+            if (!leftArrow || !rightArrow || !overlay) {
+                throw 'SliderModal have incorrect structure';
+            }
+            leftArrow.addEventListener('click', () =>this.prevPhoto());
+            rightArrow.addEventListener('click', () =>this.nextPhoto());
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    this.hide();
+                }
+            });
+        }
+        catch (e) {
+            console.error(e);
+            throw e;
+        }
     }
     private setPhoto(photo: Photo) {
-        this.objNode.querySelector('.slider__img')!
-            .setAttribute('src', photo.url)
+        if (!this.album) return;
 
-        this.objNode.querySelector('.window__title')!
-            .textContent = photo.title;
-
-        this.objNode.querySelector('.window__counter')!
-            .textContent = this.currentPhotoIndex+1 + ' of ' + String(this.album?.getSize());
+        try {
+            const sliderImg = this.objNode.querySelector('.slider__img');
+            const windowTittle = this.objNode.querySelector('.window__title');
+            const windowCounter = this.objNode.querySelector('.window__counter');
+            if (!sliderImg || !windowTittle || !windowCounter) {
+                throw 'SliderModal have incorrect structure';
+            }
+            sliderImg.setAttribute('src', photo.url);
+            windowTittle.textContent = photo.title;
+            windowCounter.textContent = `${this.currentPhotoIndex+1} of ${this.album.getSize()}`
+        }
+        catch (e) {
+            console.error(e);
+            throw e;
+        }
     }
 
     show() {

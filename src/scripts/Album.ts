@@ -10,28 +10,36 @@ export class Album {
     private _userId: number | undefined;
     private _id: number | undefined;
     private _title: string | undefined;
-    private albumUrl: string;
-    private photos: Array<Photo>;
+    readonly albumUrl: string;
+    readonly authorUrl: string;
+    private readonly photos: Array<Photo>;
 
-    constructor(albumUrl: string) {
+    constructor(albumUrl: string, AuthorUrl: string) {
         this.albumUrl = albumUrl;
+        this.authorUrl = AuthorUrl;
         this.photos = [];
     }
 
     public async init() {
-        await fetch(this.albumUrl + '/photos')
-            .then(response => response.json())
-            .then(arrFromJson => arrFromJson.forEach(
-                (photo: Photo) =>
-                    this.photos.push(photo)));
+        try {
+            const photosResponse = await fetch(`${this.albumUrl}/photos`);
+            const photosArray = await photosResponse.json();
 
-        await fetch(this.albumUrl)
-            .then(response => response.json())
-            .then(json => {
-                this._userId = json.userId;
-                this._id = json.id;
-                this._title = json.title;
-            });
+            for (const photo of photosArray) {
+                this.photos.push(photo);
+            }
+
+            const albumResponse = await fetch(this.albumUrl);
+            const albumInfo = await albumResponse.json();
+
+            this._userId = albumInfo.userId;
+            this._id = albumInfo.id;
+            this._title = albumInfo.title;
+        }
+        catch (e) {
+            console.error(e);
+            throw e;
+        }
     }
 
     getPhoto(photoIndex: number): Photo {
@@ -43,7 +51,7 @@ export class Album {
     }
 
     get title(): string {
-        return this._title as string;
+        return this._title ?? 'noTitle';
     }
     get id(): number | undefined {
         return this._id;
