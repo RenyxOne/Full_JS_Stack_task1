@@ -1,62 +1,68 @@
 export type Photo = {
-    albumId: number;
-    id: number;
-    title: string;
-    url: string;
-    thumbnailUrl: string;
-}
+  albumId: number;
+  id: number;
+  title: string;
+  url: string;
+  thumbnailUrl: string;
+};
 
 export class Album {
-    private _userId: number | undefined;
-    private _id: number | undefined;
-    private _title: string | undefined;
-    readonly albumUrl: string;
-    readonly authorUrl: string;
-    private readonly photos: Array<Photo>;
+  private userIdField: number | undefined;
 
-    constructor(albumUrl: string, AuthorUrl: string) {
-        this.albumUrl = albumUrl;
-        this.authorUrl = AuthorUrl;
-        this.photos = [];
+  private idField: number | undefined;
+
+  private titleField: string | undefined;
+
+  readonly albumUrl: string;
+
+  readonly authorUrl: string;
+
+  private readonly photos: Array<Photo>;
+
+  constructor(albumUrl: string, AuthorUrl: string) {
+    this.albumUrl = albumUrl;
+    this.authorUrl = AuthorUrl;
+    this.photos = [];
+  }
+
+  public async init() {
+    try {
+      const photosResponse = await fetch(`${this.albumUrl}/photos`);
+      const photosArray = await photosResponse.json();
+
+      for (const photo of photosArray) {
+        this.photos.push(photo);
+      }
+
+      const albumResponse = await fetch(this.albumUrl);
+      const albumInfo = await albumResponse.json();
+
+      this.userIdField = albumInfo.userId;
+      this.idField = albumInfo.id;
+      this.titleField = albumInfo.title;
+    } catch (e) {
+      console.error(e);
+      throw e;
     }
+  }
 
-    public async init() {
-        try {
-            const photosResponse = await fetch(`${this.albumUrl}/photos`);
-            const photosArray = await photosResponse.json();
+  getPhoto(photoIndex: number): Photo {
+    return this.photos[photoIndex];
+  }
 
-            for (const photo of photosArray) {
-                this.photos.push(photo);
-            }
+  getSize(): number {
+    return this.photos.length;
+  }
 
-            const albumResponse = await fetch(this.albumUrl);
-            const albumInfo = await albumResponse.json();
+  get title(): string {
+    return this.titleField ?? 'noTitle';
+  }
 
-            this._userId = albumInfo.userId;
-            this._id = albumInfo.id;
-            this._title = albumInfo.title;
-        }
-        catch (e) {
-            console.error(e);
-            throw e;
-        }
-    }
+  get id(): number | undefined {
+    return this.idField;
+  }
 
-    getPhoto(photoIndex: number): Photo {
-        return this.photos[photoIndex];
-    }
-
-    getSize(): number{
-        return this.photos.length;
-    }
-
-    get title(): string {
-        return this._title ?? 'noTitle';
-    }
-    get id(): number | undefined {
-        return this._id;
-    }
-    get userId(): number | undefined {
-        return this._userId;
-    }
+  get userId(): number | undefined {
+    return this.userIdField;
+  }
 }
