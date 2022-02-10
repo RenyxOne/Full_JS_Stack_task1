@@ -1,32 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap");
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Almarai', sans-serif;
+  font-family: "Almarai", sans-serif;
 }
 
 .wrapper {
-  overflow: hidden;
-  box-sizing: border-box;
-  background-color: #fff;
-  min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
   padding: 0 20px;
+  min-height: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
 }
 
 .container {
   width: 100%;
-  box-sizing: border-box;
   max-width: 1630px;
+  box-sizing: border-box;
 }
 
 .title {
-  color: #0d0c22;
   font-size: 32px;
+  color: #0d0c22;
 }
 
 .subtitle {
@@ -34,19 +35,18 @@ html, body {
 }
 
 .text-with-bg {
-  box-sizing: border-box;
-  padding: 5px;
   border-radius: 5px;
+  padding: 5px;
+  box-sizing: border-box;
   background: #eee;
 }
-
 
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: content-box;
   padding-bottom: 20px;
+  height: content-box;
 
   &__title {
     margin-bottom: 10px;
@@ -62,45 +62,48 @@ html, body {
 }
 
 .gallery {
-
   &__card-area {
     display: flex;
-    justify-content: flex-start;
     flex-wrap: wrap;
-    margin: -1% -1%;
+    justify-content: flex-start;
+    margin: -1%;
   }
 
   &__card {
     flex: 0 1 23%;
+    padding: 1%;
     min-width: 250px;
-    padding: 1% 1%;
+
     @media screen and (max-width: 1110px) {
       flex: 0 1 31%;
     }
+
     @media screen and (max-width: 822px) {
       flex: 0 1 48%;
     }
+
     @media screen and (max-width: 550px) {
       flex: 0 1 100%;
     }
   }
 
   &__btn {
+    position: relative;
     margin-top: 10px;
     border-radius: 10px;
     width: 100%;
     height: 50px;
-    position: relative;
     background: #ccc;
-    &:before {
+
+    &::before {
+      content: "Load More";
       position: absolute;
-      top: 0;
       left: 0;
       right: 0;
+      top: 0;
       bottom: 0;
-      text-align: center;
       line-height: 50px;
-      content: 'Load More';
+      text-align: center;
     }
 
     &#{&}--hide {
@@ -111,32 +114,31 @@ html, body {
 
 .card {
   &__img {
-    height: 100%;
     width: 100%;
+    height: 100%;
     object-fit: cover;
-
   }
 
   &__main {
-    box-sizing: border-box;
-    margin-bottom: 3px;
     position: relative;
-    border-radius: 10px;
     overflow: hidden;
+    margin-bottom: 3px;
+    border-radius: 10px;
+    box-sizing: border-box;
   }
 
   &__overlay {
     position: absolute;
-    top: 0;
     left: 0;
-    bottom: 3px;
     right: 0;
-    padding: 10%;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.70));
-    opacity: 0;
+    top: 0;
+    bottom: 3px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    padding: 10%;
+    background: linear-gradient(transparent, rgb(0 0 0 / 70%));
+    opacity: 0;
 
     &:hover {
       opacity: 1;
@@ -146,9 +148,9 @@ html, body {
 
   &__description {
     display: flex;
-    width: 100%;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
   }
 
   &__footer {
@@ -157,19 +159,19 @@ html, body {
 
   &__author {
     display: block;
-    width: 100%;
-    background-color: #ccc;
     border-radius: 15px;
+    width: 100%;
     text-align: center;
+    background-color: #ccc;
   }
 
   &__title {
-    font-size: 32px;
-    font-weight: 700;
-    color: #f4f4f4;
-    white-space: nowrap;
     overflow: hidden;
+    font-weight: 700;
+    font-size: 32px;
+    white-space: nowrap;
     text-overflow: ellipsis;
+    color: #f4f4f4;
   }
 }
 
@@ -179,18 +181,18 @@ html, body {
 
   &__overlay {
     position: fixed;
-    top: 0;
-    bottom: 0;
     left: 0;
     right: 0;
-    box-sizing: border-box;
+    top: 0;
+    bottom: 0;
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 100%;
-    width: 100%;
-    background: rgba(0,0,0,0.5);
+    justify-content: center;
     padding: 20px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background: rgb(0 0 0 / 50%);
   }
 
   &__window {
@@ -207,19 +209,19 @@ html, body {
 }
 
 .window {
-  width: 100%;
-  height: 100%;
-  background: #cccccc;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  background: #ccc;
 
   &__header {
-    flex: 0 0 5%;
-    min-height: 40px;
     display: flex;
-    justify-content: center;
+    flex: 0 0 5%;
     align-items: center;
+    justify-content: center;
+    min-height: 40px;
   }
 
   &__main {
@@ -228,66 +230,68 @@ html, body {
   }
 
   &__footer {
-    flex: 0 0 10%;
     display: flex;
-    justify-content: center;
+    flex: 0 0 10%;
     align-items: center;
+    justify-content: center;
   }
 }
 
 .slider {
-  display: flex;
   position: relative;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
   width: 100%;
   height: 100%;
-  justify-items: center;
-  justify-content: center;
 
   &__img {
-    border-radius: 10px;
     overflow: hidden;
+    border-radius: 10px;
+  }
+
+  &__arrow-left {
+    @include arrow(180deg);
+
+    left: 0;
+  }
+
+  &__arrow-right {
+    @include arrow(0deg);
+
+    right: 0;
   }
 
   @mixin arrow($rotate) {
-    min-width: 60px;
-    width: 15%;
     position: absolute;
-    top:0;
+    top: 0;
     bottom: 0;
+    width: 15%;
+    min-width: 60px;
 
-    &:before {
-      content: '';
-      background: url('../assets/slider/arrow.png') 0 0 no-repeat;
-      background-size: cover;
+    &::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
       display: inline-block;
+      margin: -26px 0 0 -26px;
       width: 52px;
       height: 52px;
-      margin: -26px 0 0 -26px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
+      background: url("../assets/slider/arrow.png") 0 0 no-repeat;
+      background-size: cover;
+      opacity: 0.5;
       transform: rotate($rotate);
-      opacity: .5;
     }
 
     &:hover {
-      background: rgba(0,0,0,.3);
+      background: rgb(0 0 0 / 30%);
       transition: 0.3s;
-      &:before {
+
+      &::before {
         opacity: 1;
         transition: 0.3s;
       }
     }
-
-
-
-  }
-  &__arrow-left {
-    @include arrow(180deg);
-    left: 0;
-  }
-  &__arrow-right {
-    @include arrow(0deg);
-    right: 0;
   }
 }
