@@ -1,4 +1,4 @@
-import {User, Album, Id, Photo} from '../../Types';
+import {User, Album, Id, Photo} from './Types';
 
 export class BackendAgent {
     constructor(

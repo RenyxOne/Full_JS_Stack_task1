@@ -1,6 +1,7 @@
-import {BackendAgent} from './BackendAgent';
+import {BackendAgent} from '../../BackendAgent';
 import {User, Album} from '../../Types';
 import {ViewGallery} from '../Views/ViewGallery';
+import {ControllerSlider} from '../Controllers/ControllerSlider';
 
 export class ModelGallery {
     private albumsArray: Array<Album>;
@@ -11,7 +12,10 @@ export class ModelGallery {
 
     private view: ViewGallery | null;
 
-    constructor(private backendAgent: BackendAgent) {
+    constructor(
+        private backendAgent: BackendAgent,
+        private slider?: ControllerSlider
+    ) {
         this.albumsArray = [];
         this.usersArray = [];
         this.albumIter = ModelGallery.generator(this.albumsArray);
@@ -38,14 +42,18 @@ export class ModelGallery {
             (user) => user.id === album.userId
         );
 
-        this.view.addNewCard(
-            {
-                preview: album.photos[0].thumbnailUrl,
-                title: album.title,
-                author: albumAuthor ? albumAuthor.name : 'unknown',
-            },
-            album
-        );
+        const albumDescription = {
+            preview: album.photos[0].thumbnailUrl,
+            title: album.title,
+            author: albumAuthor ? albumAuthor.name : 'unknown',
+        };
+
+        this.view.addNewCard(albumDescription, () => {
+            if (!this.slider) {
+                return;
+            }
+            this.slider.openSlider(album.photos);
+        });
     }
 
     public setView(view: ViewGallery) {

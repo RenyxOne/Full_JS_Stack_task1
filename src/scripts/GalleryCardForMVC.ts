@@ -1,4 +1,4 @@
-import {GalleryCardTemplate} from '../../Types';
+import {GalleryCardTemplate} from './Types';
 
 export class GalleryCard {
     private readonly card: HTMLElement;

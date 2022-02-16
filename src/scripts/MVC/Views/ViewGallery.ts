@@ -1,6 +1,5 @@
-import {GalleryCard} from './GalleryCardForMVC';
-import {Album, GalleryCardTemplate} from '../../Types';
-// import {ControllerSlider} from '../Controllers/ControllerSlider';
+import {GalleryCard} from '../../GalleryCardForMVC';
+import {GalleryCardTemplate} from '../../Types';
 
 export class ViewGallery {
     private cardArray: Array<GalleryCard>;
@@ -9,10 +8,7 @@ export class ViewGallery {
 
     private galleryCardArea: HTMLElement;
 
-    constructor(
-        private domModel: Document,
-        private element: HTMLElement // private slider: ControllerSlider
-    ) {
+    constructor(private domModel: Document, private element: HTMLElement) {
         this.cardArray = [];
 
         this.galleryCardArea = domModel.createElement('div');
@@ -24,15 +20,16 @@ export class ViewGallery {
         element.appendChild(this.galleryBtn);
     }
 
-    public addNewCard(options: GalleryCardTemplate, album: Album): void {
+    public addNewCard(
+        options: GalleryCardTemplate,
+        clickEvent?: (e: Event) => void
+    ): void {
         const card = new GalleryCard(this.domModel, options);
         card.getNode().classList.add('gallery__card');
         this.cardArray.push(card);
         this.galleryCardArea.appendChild(card.getNode());
-        // card.setMainClickEvent((e) => {
-        //     this.slider.setAlbum(album);
-        //     this.slider.open();
-        // });
+        if (!clickEvent) return;
+        card.setMainClickEvent(clickEvent);
     }
 
     private toggleBtn() {
